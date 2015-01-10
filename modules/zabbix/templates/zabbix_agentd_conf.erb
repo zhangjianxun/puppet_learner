@@ -1,0 +1,9 @@
+PidFile=/var/run/zabbix/zabbix_agentd.pid
+LogFile=/var/log/zabbix/zabbix_agentd.log
+EnableRemoteCommands=1
+LogRemoteCommands=1
+Server=<%= zabbix_server %>
+Hostname=<%= fqdn %>
+ListenIP=<%= ipaddress %>
+Include=/etc/zabbix/zabbix_agentd.d/
+

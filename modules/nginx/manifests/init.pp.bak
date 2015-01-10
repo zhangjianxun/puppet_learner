@@ -1,0 +1,44 @@
+class nginx{
+	yumrepo { 'puppet_nginx':
+		baseurl       => 'http://mirrors.tester.com',
+		gpgcheck      => '0',
+		enabled       => '1',
+	}
+	host{ 'mirrors.tester.com':
+                ensure        => 'present',
+                host_aliases  => ['mirrors'],
+                ip            => '10.128.130.245',
+                target        => '/etc/hosts',
+        }
+	package { 'nginx':
+		allow_virtual => false, 
+		ensure        => present,
+		require       => Yumrepo["puppet_nginx"],
+	}
+	file { 'nginx.conf':
+		path	      => "/etc/nginx/nginx.conf",
+      		content       => template("nginx/nginx.conf.erb"),
+		require       => Package ['nginx'],
+	}
+	file {'/etc/nginx/conf.d':
+		ensure        => directory,
+		require       => Package ['nginx'],
+		recurse       => true,
+		purge	      => true,
+		source        => "puppet:///modules/nginx/conf.d/",
+		notify	      => Exec ['reload'],
+	}
+	service {'nginx':
+		ensure        => running,
+		enable        => true,
+		require       => Package['nginx'],
+	}
+	exec{ 'reload':
+		 refreshonly  => true,
+                 path         => "/usr/sbin",
+        	 onlyif       => 'nginx -t -c /etc/nginx/nginx.conf',
+        	 tries        => 3,
+        	 try_sleep    => 5,
+        }
+}
+

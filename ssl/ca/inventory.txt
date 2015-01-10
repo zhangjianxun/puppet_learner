@@ -1,0 +1,2 @@
+0x0001 2014-12-28T06:57:27GMT 2019-12-28T06:57:27GMT /CN=Puppet CA: zjx-server.tester.com
+0x0002 2014-12-28T06:57:28GMT 2019-12-28T06:57:28GMT /CN=zjx-server.tester.com

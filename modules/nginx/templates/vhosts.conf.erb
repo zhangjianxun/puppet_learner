@@ -1,0 +1,8 @@
+server {
+  server_name <%= @vhostname %>;
+  listen <%= @vhostport %>;
+  access_log /var/log/nginx/access.log;
+	location / { 
+	   root <%= @vhostroot %>;
+	}
+}
